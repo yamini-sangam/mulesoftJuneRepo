@@ -1,0 +1,2 @@
+insert into MEMFTool(APP_NAME,COMP_NAME,SEVERITY,EVENT_CATEGORY,EVENT_CODE,SYSTEM_INFO,SERVER_INSTANCE,PAYLOAD_HEADER,PAYLOAD_TYPE,TRACKING_ID,EVENT_DESC,CREATED_TS,EVENT_ID,REPLAYFLAG,PURGE_FLAG,COMP_TYPE,PAYLOAD_BODY)
+		values(:app_name, :comp_name, :severity, :event_category, :event_code, :system_info, :server_instance, :payload_header, :payload_type, :trackingId, :event_description, :created_ts,:event_id,:comment,:status,:comp_type,:payloadBody)

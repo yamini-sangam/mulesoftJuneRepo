@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="8ad190f3-3dda-4c91-9027-eac913157111" file="properties/${env}-properties.yaml" />
+	<global-property doc:name="Global Property" doc:id="e505d8d6-bb35-4c03-96c9-b0f96bd0f6ab" name="env" value="local" />
+	<configuration-properties doc:name="Configuration properties" doc:id="fbbc07ce-b552-47d1-9811-b1f663f6a31f" file="properties/common-properties.yaml" />
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b075a653-4fee-4e97-9a6d-f748bd9d7afa" >
+		<http:listener-connection host="${http.host}" port="${http.port}" />
+	</http:listener-config>
+	<vm:config name="VM_Config" doc:name="VM Config" doc:id="5e006209-1d2d-4d8b-87a0-b5f732e0e400" >
+		<vm:queues >
+			<vm:queue queueName="generic-event-input-queue" />
+		</vm:queues>
+	</vm:config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="a96763e8-0802-446f-861c-7b9979352240" >
+		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.username}" password="${db.password}" database="${db.database}" />
+	</db:config>
+	<import doc:name="Import" doc:id="da2312b4-d136-44c3-a51a-a676793a1557" file="globalLogger.xml" />
+
+</mule>

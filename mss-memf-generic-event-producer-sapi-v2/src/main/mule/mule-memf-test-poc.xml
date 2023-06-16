@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<flow name="publish-generic-event-flow" doc:id="80bb2691-f520-4efb-850f-18818bb7d784" >
+		<http:listener doc:name="publish-generic-event-flow-http-listener" doc:id="e7bafb8b-a32d-4d7e-8ade-f7cbd756a4fc" path="/MEMF" config-ref="HTTP_Listener_config">
+			<http:error-response statusCode="#[vars.httpStatus]" >
+				<http:body ><![CDATA[#[payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<set-variable value="publish-generic-event-flow" doc:name="setFlowName" doc:id="48647d5a-f297-4d19-a31a-70016bb47f56" variableName="flowName"/>
+		<set-variable value="#[attributes]" doc:name="SetReqattributes" doc:id="f9b14316-e42f-4eb7-9af3-ed7481212761" variableName="reqattributes"/>
+		<flow-ref doc:name="start-logger-flowRef" doc:id="d15c6fe1-0407-4333-b8b9-b2c4fc1100a9" name="startLogger" target="startLoggerEventPublish"/>
+		<choice doc:name="check-event-code" doc:id="7a45b3ee-ac3f-4c3f-a1ac-727c1ad245d4" >
+			<when expression="#[isEmpty(payload) == false]">
+				<flow-ref doc:name="call-set-variables-subflow" doc:id="c46166a1-cc94-466c-95e9-870e86498bc7" name="mule-memf-test-poc-success-set-variables-subflow"/>
+				<ee:transform doc:name="generate-success-generic-event" doc:id="4fe9bd9f-cdc9-4c77-b6c5-6a55c2da9eec">
+					<ee:message>
+						<ee:set-payload resource="dwl/publish-generic-event-success.dwl" />
+					</ee:message>
+				</ee:transform>
+				<flow-ref doc:name="generic-success-event-logger-flowRef" doc:id="62703096-2c0f-48e4-9a11-f4d1d29fe333" name="inprogressLogger" target="successGenericEvent"/>
+				<logger level="INFO" doc:name="generic-event-logger" doc:id="4f1ea9bf-b4c8-41de-a9ca-0a290600a48c" message="#[payload]" />
+				<vm:publish doc:name="publish-generic-event-to-vm-queue" doc:id="2f2b7d51-dc29-4fa4-9f79-9d94571c1c20" config-ref="VM_Config" queueName="generic-event-input-queue"/>
+				<flow-ref doc:name="call-publish-generic-event-from-queue-to-db-subflow" doc:id="121c4abf-985f-4c90-8716-b5fbf0413b96" name="generic-event-from-queue-to-db"/>
+			
+
+</when>
+			<otherwise >
+				<raise-error doc:name="generate-payload-error" doc:id="7b0abb9b-04b1-4b9e-9d76-9abaedf093bf" type="PAYLOAD:PAYLOAD_ERROR" description="Event code should be 1"/>
+				<flow-ref doc:name="error-logger-flowRef" doc:id="b6640164-75b8-48fc-b027-f205fb44c07a" name="errorLogger" target="emptyPayloadErrorLogger"/>
+			
+</otherwise>
+		</choice>
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="48bcffb2-f7e1-4a8d-a4b9-d33b6c7786a4" type="PAYLOAD:PAYLOAD_ERROR">
+				<flow-ref doc:name="call-set-variables-subflow" doc:id="3bc71a54-936a-445e-bc6e-05a3f9d96af3" name="mule-memf-test-poc-failure-set-variables-subflow"/>
+				<ee:transform doc:name="generate-failure-generic-event" doc:id="fcfced7b-16c4-4a2e-9dc7-eb7325c87f3f" >
+					<ee:message >
+						<ee:set-payload resource="dwl/publish-generic-event-failure.dwl" />
+					</ee:message>
+				</ee:transform>
+				<flow-ref doc:name="generic-failure-event-logger-flowRef" doc:id="f195f7c6-d80f-457d-8e74-2550225e8662" name="inprogressLogger" target="failureGenericEvent"/>
+				<logger level="INFO" doc:name="generic-event-logger" doc:id="82660526-8b89-430f-be62-a41160f7d863" message="#[payload]"/>
+				<vm:publish queueName="generic-event-input-queue" doc:name="publish-generic-event-to-vm-queue" doc:id="b829c831-433b-4270-bb48-387cf950f751" config-ref="VM_Config"/>
+				<flow-ref doc:name="call-generic-event-from-queue-to-db-subflow" doc:id="43dd2aff-f2ed-4262-9c81-8dce3d48e3fa" name="generic-event-from-queue-to-db"/>
+			
+</on-error-continue>
+		</error-handler>
+	</flow><sub-flow name="mule-memf-test-poc-failure-set-variables-subflow" doc:id="99f67a2a-79a8-4ad7-a3d8-ea38910b23b4" >
+		<set-variable value="400" doc:name="httpStatus" doc:id="7651c9fa-9bae-4e56-b9a3-fdcb93a744df" variableName="httpStatus" />
+		<set-variable value="#[now()]" doc:name="current-timestamp" doc:id="965d28a9-fce6-4536-a09c-751efb62fbde" variableName="time" />
+	
+</sub-flow>
+	<sub-flow name="mule-memf-test-poc-success-set-variables-subflow" doc:id="b7f9cbd5-25e4-4964-96e1-b072d8764266" >
+		<set-variable value="200" doc:name="httpStatus" doc:id="d829fb45-d97a-49ae-80c6-974c17d8fca8" variableName="httpStatus" />
+		<set-variable value="#[now()]" doc:name="current-timestamp" doc:id="463810a2-102e-42fa-9613-e715155bea4d" variableName="time" />
+		<set-variable value="No errors " doc:name="description" doc:id="bb0f4ba8-3c01-46a8-9398-0fe8fca39a31" variableName="description" />
+	</sub-flow>
+	<flow name="generic-event-from-queue-to-db" doc:id="311ef96b-20bb-449c-a2e1-395b668e2ea7" >
+		<vm:consume doc:name="consume-generic-event-from-vm-input-queue" doc:id="da317aa7-4e79-442d-9f0d-5b01ec624459" config-ref="VM_Config" queueName="generic-event-input-queue"/>
+		<set-variable value="generic-event-from-queue-to-db" doc:name="setFlowName" doc:id="d39a693f-bddd-4ae4-b6fa-d9b01b6ed748" variableName="flowName"/>
+		<set-variable value="#[attributes]" doc:name="SetReqattributes" doc:id="544bbcae-eb47-41d0-ae4d-32901fae4936" variableName="reqattributes" />
+		<flow-ref doc:name="start-logger-flowRef" doc:id="11141160-d56c-4865-971c-3a30430acc6c" name="startLogger" target="startLoggerEventConsume"/>
+		<ee:transform doc:name="generic-event-transformation" doc:id="abfbede6-c95a-4025-9c92-ef2ca6f9e628" >
+			<ee:message >
+				<ee:set-payload resource="dwl/publish-generic-event-from-queue-to-db.dwl" />
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="generic-event-transformation" doc:id="250c75c2-8804-4e38-a834-c2fa52357ca1" name="inprogressLogger" target="genericEventTransformationLogger"/>
+		<logger level="INFO" doc:name="generic-event-transformation-logger" doc:id="ed635d1b-2d7d-405f-8ff9-1f746c491cb5" message="#[payload]"/>
+		<!--  <try doc:name="Try" doc:id="c8977905-be7a-41e0-b61f-18c7b4706326" >
+			<db:insert doc:name="insert-generic-event-to-database" doc:id="82b8ead2-7466-4123-8111-ea2bb4ab18ca" config-ref="Database_Config">
+			<db:sql><![CDATA[${file::sql/insert-generic-event-from-queue-to-db.sql}]]>
+		</db:sql>
+			<db:input-parameters><![CDATA[#[payload]]]></db:input-parameters>
+		</db:insert>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="41a68965-2c21-4812-83f6-c883256694f5" type="DB:CONNECTIVITY">
+					<ee:transform doc:name="Transform Message" doc:id="8edff363-1533-4193-ad75-2c200390990f" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+-&#45;&#45;
+{
+	"message" : "DB:CONNECTIVITY ERROR"
+}]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
+	 -->
+		<flow-ref doc:name="end-logger-flowRef" doc:id="35647036-fb6c-48b0-a8d7-78298865a065" name="endLogger"/>
+
+
+</flow>
+
+</mule>

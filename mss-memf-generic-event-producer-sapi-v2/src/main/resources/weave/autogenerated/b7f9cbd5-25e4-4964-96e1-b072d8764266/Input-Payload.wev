@@ -1,0 +1,6 @@
+%dw 2.0
+
+type auto_b7f9cbd5_25e4_4964_96e1_b072d8764266_Input_Payload = {|  |} {"typeAlias": "Object",
+"class": "java.lang.Object",
+"typeId": "java.lang.Object"}
+
