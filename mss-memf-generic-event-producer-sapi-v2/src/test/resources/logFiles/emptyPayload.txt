@@ -1,0 +1,225 @@
+"start_log": {
+    "startLog": "publish-generic-event-flow flow has started",
+    "transactionId": "d1219b40-0c58-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "publish-generic-event-flow",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:16:50.039-07:00",
+    "contextKey1": "test",
+    "serviceResourcePath": "/MEMF",
+    "serviceMethod": "GET",
+    "queryParameters": {
+      
+    },
+    "uriParameters": {
+      
+    },
+    "payload": ""
+  }
+}
+ERROR 2023-06-16 08:16:50,045 [[MuleRuntime].uber.02: [mss-memf-generic-event-producer-sapi-v2].publish-generic-event-flow.CPU_INTENSIVE @66e83411] [processor: publish-generic-event-flow/processors/3/route/1/processors/0; event: d1219b40-0c58-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.exception.OnErrorContinueHandler: 
+********************************************************************************
+Message               : payload must not be empty
+Element               : publish-generic-event-flow/processors/3/route/1/processors/0 @ mss-memf-generic-event-producer-sapi-v2:mule-memf-test-poc.xml:38 (generate-payload-error)
+Element DSL           : <raise-error doc:name="generate-payload-error" doc:id="7b0abb9b-04b1-4b9e-9d76-9abaedf093bf" type="PAYLOAD:PAYLOAD_ERROR" description="payload must not be empty"></raise-error>
+Error type            : PAYLOAD:PAYLOAD_ERROR
+FlowStack             : at publish-generic-event-flow(publish-generic-event-flow/processors/3/route/1/processors/0 @ mss-memf-generic-event-producer-sapi-v2:mule-memf-test-poc.xml:38 (generate-payload-error))
+
+  (set debug level logging or '-Dmule.verbose.exceptions=true' for everything)
+********************************************************************************
+
+INFO  2023-06-16 08:16:50,056 [[MuleRuntime].uber.04: [mss-memf-generic-event-producer-sapi-v2].publish-generic-event-flow.CPU_INTENSIVE @66e83411] [processor: inprogressLogger/processors/1; event: d1219b40-0c58-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "inProgress_log": {
+    "inProgressLog": "publish-generic-event-flow flow is in-progress",
+    "transactionId": "d1219b40-0c58-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "publish-generic-event-flow",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:16:50.049-07:00",
+    "contextKey1": "test",
+    "serviceResourcePath": "/MEMF",
+    "serviceMethod": "GET",
+    "queryParameters": {
+      
+    },
+    "uriParameters": {
+      
+    },
+    "payload": {
+      "GenericEvent": {
+        "EventCategory": "info",
+        "EventDescription": "Failed",
+        "EVENT_CODE": "-1",
+        "Severity": "INFO",
+        "EnvironmentDetails": {
+          "SYSTEM_INFO": {
+            "Env": "local",
+            "ServerInstance": "123.33.1.67",
+            "MuleVersion": "HTTP/1.1",
+            "AnypointStudio": "V7.15"
+          }
+        },
+        "PayloadHeader": {
+          "Orginalpayload": "/MEMF",
+          "pheader": {
+            "PayloadType": "JSON"
+          }
+        },
+        "TRACKING_ID": "6792442d-6c0f-4603-8f66-d66679faa0ab",
+        "SourceQueue": "MEMF",
+        "ComponentType": "Mulesoft",
+        "AppName": "mss-memf-generic-event-producer-sapi-v2",
+        "timestamp": "2023-06-16T08:16:50.045-07:00",
+        "flowName": "publish-generic-event-flow",
+        "status": "400",
+        "description": "payload must not be empty"
+      }
+    }
+  }
+}
+INFO  2023-06-16 08:16:50,057 [[MuleRuntime].uber.04: [mss-memf-generic-event-producer-sapi-v2].publish-generic-event-flow.CPU_INTENSIVE @66e83411] [processor: publish-generic-event-flow/errorHandler/0/processors/3; event: d1219b40-0c58-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: <?xml version='1.0' encoding='UTF-8'?>
+<GenericEvent>
+  <EventCategory>info</EventCategory>
+  <EventDescription>Failed</EventDescription>
+  <EVENT_CODE>-1</EVENT_CODE>
+  <Severity>INFO</Severity>
+  <EnvironmentDetails>
+    <SYSTEM_INFO>
+      <Env>local</Env>
+      <ServerInstance>123.33.1.67</ServerInstance>
+      <MuleVersion>HTTP/1.1</MuleVersion>
+      <AnypointStudio>V7.15</AnypointStudio>
+    </SYSTEM_INFO>
+  </EnvironmentDetails>
+  <PayloadHeader>
+    <Orginalpayload>/MEMF</Orginalpayload>
+    <pheader>
+      <PayloadType>JSON</PayloadType>
+    </pheader>
+  </PayloadHeader>
+  <TRACKING_ID>6792442d-6c0f-4603-8f66-d66679faa0ab</TRACKING_ID>
+  <SourceQueue>MEMF</SourceQueue>
+  <ComponentType>Mulesoft</ComponentType>
+  <AppName>mss-memf-generic-event-producer-sapi-v2</AppName>
+  <timestamp>2023-06-16T08:16:50.045-07:00</timestamp>
+  <flowName>publish-generic-event-flow</flowName>
+  <status>400</status>
+  <description>payload must not be empty</description>
+</GenericEvent>
+INFO  2023-06-16 08:16:50,070 [[MuleRuntime].uber.04: [mss-memf-generic-event-producer-sapi-v2].generic-event-from-queue-to-db.CPU_INTENSIVE @4e9ae6b4] [processor: startLogger/processors/1; event: d1219b40-0c58-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "start_log": {
+    "startLog": "generic-event-from-queue-to-db flow has started",
+    "transactionId": "d1219b40-0c58-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "generic-event-from-queue-to-db",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:16:50.063-07:00",
+    "contextKey1": "test",
+    "payload": {
+      "GenericEvent": {
+        "EventCategory": "info",
+        "EventDescription": "Failed",
+        "EVENT_CODE": "-1",
+        "Severity": "INFO",
+        "EnvironmentDetails": {
+          "SYSTEM_INFO": {
+            "Env": "local",
+            "ServerInstance": "123.33.1.67",
+            "MuleVersion": "HTTP/1.1",
+            "AnypointStudio": "V7.15"
+          }
+        },
+        "PayloadHeader": {
+          "Orginalpayload": "/MEMF",
+          "pheader": {
+            "PayloadType": "JSON"
+          }
+        },
+        "TRACKING_ID": "6792442d-6c0f-4603-8f66-d66679faa0ab",
+        "SourceQueue": "MEMF",
+        "ComponentType": "Mulesoft",
+        "AppName": "mss-memf-generic-event-producer-sapi-v2",
+        "timestamp": "2023-06-16T08:16:50.045-07:00",
+        "flowName": "publish-generic-event-flow",
+        "status": "400",
+        "description": "payload must not be empty"
+      }
+    }
+  }
+}
+INFO  2023-06-16 08:16:50,077 [[MuleRuntime].uber.04: [mss-memf-generic-event-producer-sapi-v2].generic-event-from-queue-to-db.CPU_INTENSIVE @4e9ae6b4] [processor: inprogressLogger/processors/1; event: d1219b40-0c58-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "inProgress_log": {
+    "inProgressLog": "generic-event-from-queue-to-db flow is in-progress",
+    "transactionId": "d1219b40-0c58-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "generic-event-from-queue-to-db",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:16:50.073-07:00",
+    "contextKey1": "test",
+    "payload": {
+      "app_name": "mss-memf-generic-event-producer-sapi-v2",
+      "comp_name": "publish-generic-event-flow",
+      "severity": "INFO",
+      "event_category": "info",
+      "event_code": "-1",
+      "system_info": "V7.15",
+      "server_instance": "123.33.1.67",
+      "payload_header": "/MEMF",
+      "payload_body": "JSON",
+      "trackingId": "6792442d-6c0f-4603-8f66-d66679faa0ab",
+      "event_description": "Failed",
+      "created_ts": "2023-06-16T08:16:50.045-07:00",
+      "status": "400",
+      "comment": "payload must not be empty"
+    }
+  }
+}
+INFO  2023-06-16 08:16:50,078 [[MuleRuntime].uber.04: [mss-memf-generic-event-producer-sapi-v2].generic-event-from-queue-to-db.CPU_INTENSIVE @4e9ae6b4] [processor: generic-event-from-queue-to-db/processors/6; event: d1219b40-0c58-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "app_name": "mss-memf-generic-event-producer-sapi-v2",
+  "comp_name": "publish-generic-event-flow",
+  "severity": "INFO",
+  "event_category": "info",
+  "event_code": "-1",
+  "system_info": "V7.15",
+  "server_instance": "123.33.1.67",
+  "payload_header": "/MEMF",
+  "payload_body": "JSON",
+  "trackingId": "6792442d-6c0f-4603-8f66-d66679faa0ab",
+  "event_description": "Failed",
+  "created_ts": "2023-06-16T08:16:50.045-07:00",
+  "status": "400",
+  "comment": "payload must not be empty"
+}
+INFO  2023-06-16 08:16:50,086 [[MuleRuntime].uber.02: [mss-memf-generic-event-producer-sapi-v2].generic-event-from-queue-to-db.CPU_INTENSIVE @4e9ae6b4] [processor: endLogger/processors/1; event: d1219b40-0c58-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "end_log": {
+    "endLog": "generic-event-from-queue-to-db flow has ended",
+    "transactionId": "d1219b40-0c58-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "generic-event-from-queue-to-db",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:16:50.08-07:00",
+    "contextKey1": "test",
+    "requestProcessTime": "23-06-16T08:1",
+    "payload": {
+      "app_name": "mss-memf-generic-event-producer-sapi-v2",
+      "comp_name": "publish-generic-event-flow",
+      "severity": "INFO",
+      "event_category": "info",
+      "event_code": "-1",
+      "system_info": "V7.15",
+      "server_instance": "123.33.1.67",
+      "payload_header": "/MEMF",
+      "payload_body": "JSON",
+      "trackingId": "6792442d-6c0f-4603-8f66-d66679faa0ab",
+      "event_description": "Failed",
+      "created_ts": "2023-06-16T08:16:50.045-07:00",
+      "status": "400",
+      "comment": "payload must not be empty"
+    }
+  }
+}

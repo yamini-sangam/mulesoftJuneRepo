@@ -1,4 +1,5 @@
 %dw 2.0
+import dw::Runtime
 output application/xml
 
 ---
@@ -13,9 +14,9 @@ GenericEvent:{
 	{
 		SYSTEM_INFO :
 		{
-		Env: 'dev',
+		Env: p('environment'),
 		ServerInstance :'123.33.1.67',
-		MuleVersion :attributes.version,
+		MuleVersion : attributes.version,
 		AnypointStudio :'V7.15'
 			
 	}},
@@ -33,7 +34,7 @@ GenericEvent:{
      SourceQueue :'MEMF',
 	 ComponentType :'Mulesoft',
 //	 ComponentName : flow.name,
-	 AppName:'meaf_sap',
+	 AppName:p('applicationName') default '',
     timestamp : vars.time,
 	 flowName : flow.name,
 	 status: vars.httpStatus,

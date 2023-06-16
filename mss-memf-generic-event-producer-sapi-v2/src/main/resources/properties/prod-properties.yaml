@@ -1,31 +1,19 @@
-api:
-  id: "23233"  # Auto-discovery
 
-    
-default:
-  objectstore:
-    expiration: "10" 
-    maxEntries: "10"
-    ttl: "10" 
-
-https:
-  listener:
-    host: "0.0.0.0"
-    timeout:
-      connection-idle: "600000"
-  private:
-    port:"8092"
+http:
+  host: "0.0.0.0"
   port: "8081"
-  request:
-    timeout:
-      connection-idle: "400000"
-      response: "40000"
-db:
-  username: "${secure::db.username}"
-  password: "${secure::db.password}"
-  host: "sample.db"
-  port: "1521"
   
-reconnection: 
-  frequency: "3000"
-  retries: "3"
+db:
+  username: "root"
+  password: "root"
+  host: "localhost"
+  port: "3306"
+  database: "MEMF"
+Activemq:
+  username: "admin"
+  password: "admin"
+  url: "tcp://localhost:61616"
+  
+environment: "prod"
+applicationName: "mss-memf-generic-event-producer-sapi-v2"
+

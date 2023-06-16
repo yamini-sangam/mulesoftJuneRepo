@@ -1,0 +1,111 @@
+{
+	"info": {
+		"_postman_id": "0e710de4-a22e-4751-b881-22ec21df611a",
+		"name": "MEMF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21763656"
+	},
+	"item": [
+		{
+			"name": "emptyPayload",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"eventCode\": 1,\r\n    \"event_id\": 1677\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/MEMF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"MEMF"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1009"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Jun 2023 15:18:34 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"end_log\": {\n        \"endLog\": \"generic-event-from-queue-to-db flow has ended\",\n        \"transactionId\": \"0f52c790-0c59-11ee-b234-8cec4bc991a6\",\n        \"serverName\": \"MC176.msa.miraclesoft.com\",\n        \"applicationName\": \"mss-memf-generic-event-producer-sapi-v2\",\n        \"flowName\": \"generic-event-from-queue-to-db\",\n        \"environment\": \"local\",\n        \"timeStamp\": \"2023-06-16T08:18:34.412-07:00\",\n        \"contextKey1\": \"test\",\n        \"requestProcessTime\": \"23-06-16T08:1\",\n        \"payload\": {\n            \"app_name\": \"mss-memf-generic-event-producer-sapi-v2\",\n            \"comp_name\": \"publish-generic-event-flow\",\n            \"severity\": \"INFO\",\n            \"event_category\": \"info\",\n            \"event_code\": \"1\",\n            \"system_info\": \"V7.15\",\n            \"server_instance\": \"123.33.1.67\",\n            \"payload_header\": \"/MEMF\",\n            \"payload_body\": \"JSON\",\n            \"trackingId\": \"6abe9023-bba2-4b52-b325-a2ace8286928\",\n            \"event_description\": \"Success\",\n            \"created_ts\": \"2023-06-16T08:18:34.382-07:00\",\n            \"status\": \"200\",\n            \"comment\": \"No errors\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "payloadNotEmpty",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/MEMF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"MEMF"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1024"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Jun 2023 15:16:50 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"end_log\": {\n        \"endLog\": \"generic-event-from-queue-to-db flow has ended\",\n        \"transactionId\": \"d1219b40-0c58-11ee-b234-8cec4bc991a6\",\n        \"serverName\": \"MC176.msa.miraclesoft.com\",\n        \"applicationName\": \"mss-memf-generic-event-producer-sapi-v2\",\n        \"flowName\": \"generic-event-from-queue-to-db\",\n        \"environment\": \"local\",\n        \"timeStamp\": \"2023-06-16T08:16:50.08-07:00\",\n        \"contextKey1\": \"test\",\n        \"requestProcessTime\": \"23-06-16T08:1\",\n        \"payload\": {\n            \"app_name\": \"mss-memf-generic-event-producer-sapi-v2\",\n            \"comp_name\": \"publish-generic-event-flow\",\n            \"severity\": \"INFO\",\n            \"event_category\": \"info\",\n            \"event_code\": \"-1\",\n            \"system_info\": \"V7.15\",\n            \"server_instance\": \"123.33.1.67\",\n            \"payload_header\": \"/MEMF\",\n            \"payload_body\": \"JSON\",\n            \"trackingId\": \"6792442d-6c0f-4603-8f66-d66679faa0ab\",\n            \"event_description\": \"Failed\",\n            \"created_ts\": \"2023-06-16T08:16:50.045-07:00\",\n            \"status\": \"400\",\n            \"comment\": \"payload must not be empty\"\n        }\n    }\n}"
+				}
+			]
+		}
+	]
+}

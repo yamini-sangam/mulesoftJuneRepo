@@ -1,0 +1,218 @@
+INFO  2023-06-16 08:18:34,381 [[MuleRuntime].uber.04: [mss-memf-generic-event-producer-sapi-v2].publish-generic-event-flow.CPU_INTENSIVE @66e83411] [processor: startLogger/processors/1; event: 0f52c790-0c59-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "start_log": {
+    "startLog": "publish-generic-event-flow flow has started",
+    "transactionId": "0f52c790-0c59-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "publish-generic-event-flow",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:18:34.378-07:00",
+    "contextKey1": "test",
+    "serviceResourcePath": "/MEMF",
+    "serviceMethod": "GET",
+    "queryParameters": {
+      
+    },
+    "uriParameters": {
+      
+    },
+    "payload": {
+      "eventCode": 1,
+      "event_id": 1677
+    }
+  }
+}
+INFO  2023-06-16 08:18:34,391 [[MuleRuntime].uber.07: [mss-memf-generic-event-producer-sapi-v2].publish-generic-event-flow.CPU_INTENSIVE @66e83411] [processor: inprogressLogger/processors/1; event: 0f52c790-0c59-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "inProgress_log": {
+    "inProgressLog": "publish-generic-event-flow flow is in-progress",
+    "transactionId": "0f52c790-0c59-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "publish-generic-event-flow",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:18:34.386-07:00",
+    "contextKey1": "test",
+    "serviceResourcePath": "/MEMF",
+    "serviceMethod": "GET",
+    "queryParameters": {
+      
+    },
+    "uriParameters": {
+      
+    },
+    "payload": {
+      "GenericEvent": {
+        "EventCategory": "info",
+        "EventDescription": "Success",
+        "EVENT_CODE": "1",
+        "Severity": "INFO",
+        "EnvironmentDetails": {
+          "SYSTEM_INFO": {
+            "Env": "local",
+            "ServerInstance": "123.33.1.67",
+            "MuleVersion": "HTTP/1.1",
+            "AnypointStudio": "V7.15"
+          }
+        },
+        "PayloadHeader": {
+          "Orginalpayload": "/MEMF",
+          "pheader": {
+            "PayloadType": "JSON"
+          }
+        },
+        "TRACKING_ID": "6abe9023-bba2-4b52-b325-a2ace8286928",
+        "SourceQueue": "MEMF",
+        "ComponentType": "Mulesoft",
+        "AppName": "mss-memf-generic-event-producer-sapi-v2",
+        "timestamp": "2023-06-16T08:18:34.382-07:00",
+        "flowName": "publish-generic-event-flow",
+        "status": "200",
+        "description": "No errors"
+      }
+    }
+  }
+}
+INFO  2023-06-16 08:18:34,392 [[MuleRuntime].uber.07: [mss-memf-generic-event-producer-sapi-v2].publish-generic-event-flow.CPU_INTENSIVE @66e83411] [processor: publish-generic-event-flow/processors/3/route/0/processors/3; event: 0f52c790-0c59-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: <?xml version='1.0' encoding='UTF-8'?>
+<GenericEvent>
+  <EventCategory>info</EventCategory>
+  <EventDescription>Success</EventDescription>
+  <EVENT_CODE>1</EVENT_CODE>
+  <Severity>INFO</Severity>
+  <EnvironmentDetails>
+    <SYSTEM_INFO>
+      <Env>local</Env>
+      <ServerInstance>123.33.1.67</ServerInstance>
+      <MuleVersion>HTTP/1.1</MuleVersion>
+      <AnypointStudio>V7.15</AnypointStudio>
+    </SYSTEM_INFO>
+  </EnvironmentDetails>
+  <PayloadHeader>
+    <Orginalpayload>/MEMF</Orginalpayload>
+    <pheader>
+      <PayloadType>JSON</PayloadType>
+    </pheader>
+  </PayloadHeader>
+  <TRACKING_ID>6abe9023-bba2-4b52-b325-a2ace8286928</TRACKING_ID>
+  <SourceQueue>MEMF</SourceQueue>
+  <ComponentType>Mulesoft</ComponentType>
+  <AppName>mss-memf-generic-event-producer-sapi-v2</AppName>
+  <timestamp>2023-06-16T08:18:34.382-07:00</timestamp>
+  <flowName>publish-generic-event-flow</flowName>
+  <status>200</status>
+  <description>No errors</description>
+</GenericEvent>
+INFO  2023-06-16 08:18:34,401 [[MuleRuntime].uber.07: [mss-memf-generic-event-producer-sapi-v2].generic-event-from-queue-to-db.CPU_INTENSIVE @4e9ae6b4] [processor: startLogger/processors/1; event: 0f52c790-0c59-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "start_log": {
+    "startLog": "generic-event-from-queue-to-db flow has started",
+    "transactionId": "0f52c790-0c59-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "generic-event-from-queue-to-db",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:18:34.395-07:00",
+    "contextKey1": "test",
+    "payload": {
+      "GenericEvent": {
+        "EventCategory": "info",
+        "EventDescription": "Success",
+        "EVENT_CODE": "1",
+        "Severity": "INFO",
+        "EnvironmentDetails": {
+          "SYSTEM_INFO": {
+            "Env": "local",
+            "ServerInstance": "123.33.1.67",
+            "MuleVersion": "HTTP/1.1",
+            "AnypointStudio": "V7.15"
+          }
+        },
+        "PayloadHeader": {
+          "Orginalpayload": "/MEMF",
+          "pheader": {
+            "PayloadType": "JSON"
+          }
+        },
+        "TRACKING_ID": "6abe9023-bba2-4b52-b325-a2ace8286928",
+        "SourceQueue": "MEMF",
+        "ComponentType": "Mulesoft",
+        "AppName": "mss-memf-generic-event-producer-sapi-v2",
+        "timestamp": "2023-06-16T08:18:34.382-07:00",
+        "flowName": "publish-generic-event-flow",
+        "status": "200",
+        "description": "No errors"
+      }
+    }
+  }
+}
+INFO  2023-06-16 08:18:34,407 [[MuleRuntime].uber.07: [mss-memf-generic-event-producer-sapi-v2].generic-event-from-queue-to-db.CPU_INTENSIVE @4e9ae6b4] [processor: inprogressLogger/processors/1; event: 0f52c790-0c59-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "inProgress_log": {
+    "inProgressLog": "generic-event-from-queue-to-db flow is in-progress",
+    "transactionId": "0f52c790-0c59-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "generic-event-from-queue-to-db",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:18:34.404-07:00",
+    "contextKey1": "test",
+    "payload": {
+      "app_name": "mss-memf-generic-event-producer-sapi-v2",
+      "comp_name": "publish-generic-event-flow",
+      "severity": "INFO",
+      "event_category": "info",
+      "event_code": "1",
+      "system_info": "V7.15",
+      "server_instance": "123.33.1.67",
+      "payload_header": "/MEMF",
+      "payload_body": "JSON",
+      "trackingId": "6abe9023-bba2-4b52-b325-a2ace8286928",
+      "event_description": "Success",
+      "created_ts": "2023-06-16T08:18:34.382-07:00",
+      "status": "200",
+      "comment": "No errors"
+    }
+  }
+}
+INFO  2023-06-16 08:18:34,408 [[MuleRuntime].uber.07: [mss-memf-generic-event-producer-sapi-v2].generic-event-from-queue-to-db.CPU_INTENSIVE @4e9ae6b4] [processor: generic-event-from-queue-to-db/processors/6; event: 0f52c790-0c59-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "app_name": "mss-memf-generic-event-producer-sapi-v2",
+  "comp_name": "publish-generic-event-flow",
+  "severity": "INFO",
+  "event_category": "info",
+  "event_code": "1",
+  "system_info": "V7.15",
+  "server_instance": "123.33.1.67",
+  "payload_header": "/MEMF",
+  "payload_body": "JSON",
+  "trackingId": "6abe9023-bba2-4b52-b325-a2ace8286928",
+  "event_description": "Success",
+  "created_ts": "2023-06-16T08:18:34.382-07:00",
+  "status": "200",
+  "comment": "No errors"
+}
+INFO  2023-06-16 08:18:34,416 [[MuleRuntime].uber.04: [mss-memf-generic-event-producer-sapi-v2].generic-event-from-queue-to-db.CPU_INTENSIVE @4e9ae6b4] [processor: endLogger/processors/1; event: 0f52c790-0c59-11ee-b234-8cec4bc991a6] org.mule.runtime.core.internal.processor.LoggerMessageProcessor: {
+  "end_log": {
+    "endLog": "generic-event-from-queue-to-db flow has ended",
+    "transactionId": "0f52c790-0c59-11ee-b234-8cec4bc991a6",
+    "serverName": "MC176.msa.miraclesoft.com",
+    "applicationName": "mss-memf-generic-event-producer-sapi-v2",
+    "flowName": "generic-event-from-queue-to-db",
+    "environment": "local",
+    "timeStamp": "2023-06-16T08:18:34.412-07:00",
+    "contextKey1": "test",
+    "requestProcessTime": "23-06-16T08:1",
+    "payload": {
+      "app_name": "mss-memf-generic-event-producer-sapi-v2",
+      "comp_name": "publish-generic-event-flow",
+      "severity": "INFO",
+      "event_category": "info",
+      "event_code": "1",
+      "system_info": "V7.15",
+      "server_instance": "123.33.1.67",
+      "payload_header": "/MEMF",
+      "payload_body": "JSON",
+      "trackingId": "6abe9023-bba2-4b52-b325-a2ace8286928",
+      "event_description": "Success",
+      "created_ts": "2023-06-16T08:18:34.382-07:00",
+      "status": "200",
+      "comment": "No errors"
+    }
+  }
+}

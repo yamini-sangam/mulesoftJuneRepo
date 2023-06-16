@@ -18,13 +18,14 @@ http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/cu
 		<set-variable value="publish-generic-event-flow" doc:name="setFlowName" doc:id="48647d5a-f297-4d19-a31a-70016bb47f56" variableName="flowName"/>
 		<set-variable value="#[attributes]" doc:name="SetReqattributes" doc:id="f9b14316-e42f-4eb7-9af3-ed7481212761" variableName="reqattributes"/>
 		<flow-ref doc:name="start-logger-flowRef" doc:id="d15c6fe1-0407-4333-b8b9-b2c4fc1100a9" name="startLogger" target="startLoggerEventPublish"/>
-		<choice doc:name="check-event-code" doc:id="7a45b3ee-ac3f-4c3f-a1ac-727c1ad245d4" >
+		<choice doc:name="check-payload" doc:id="7a45b3ee-ac3f-4c3f-a1ac-727c1ad245d4" >
 			<when expression="#[isEmpty(payload) == false]">
 				<flow-ref doc:name="call-set-variables-subflow" doc:id="c46166a1-cc94-466c-95e9-870e86498bc7" name="mule-memf-test-poc-success-set-variables-subflow"/>
 				<ee:transform doc:name="generate-success-generic-event" doc:id="4fe9bd9f-cdc9-4c77-b6c5-6a55c2da9eec">
 					<ee:message>
 						<ee:set-payload resource="dwl/publish-generic-event-success.dwl" />
-					</ee:message>
+					
+</ee:message>
 				</ee:transform>
 				<flow-ref doc:name="generic-success-event-logger-flowRef" doc:id="62703096-2c0f-48e4-9a11-f4d1d29fe333" name="inprogressLogger" target="successGenericEvent"/>
 				<logger level="INFO" doc:name="generic-event-logger" doc:id="4f1ea9bf-b4c8-41de-a9ca-0a290600a48c" message="#[payload]" />
@@ -34,7 +35,7 @@ http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/cu
 
 </when>
 			<otherwise >
-				<raise-error doc:name="generate-payload-error" doc:id="7b0abb9b-04b1-4b9e-9d76-9abaedf093bf" type="PAYLOAD:PAYLOAD_ERROR" description="Event code should be 1"/>
+				<raise-error doc:name="generate-payload-error" doc:id="7b0abb9b-04b1-4b9e-9d76-9abaedf093bf" type="PAYLOAD:PAYLOAD_ERROR" description="payload must not be empty"/>
 				<flow-ref doc:name="error-logger-flowRef" doc:id="b6640164-75b8-48fc-b027-f205fb44c07a" name="errorLogger" target="emptyPayloadErrorLogger"/>
 			
 </otherwise>
@@ -45,7 +46,8 @@ http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/cu
 				<ee:transform doc:name="generate-failure-generic-event" doc:id="fcfced7b-16c4-4a2e-9dc7-eb7325c87f3f" >
 					<ee:message >
 						<ee:set-payload resource="dwl/publish-generic-event-failure.dwl" />
-					</ee:message>
+					
+</ee:message>
 				</ee:transform>
 				<flow-ref doc:name="generic-failure-event-logger-flowRef" doc:id="f195f7c6-d80f-457d-8e74-2550225e8662" name="inprogressLogger" target="failureGenericEvent"/>
 				<logger level="INFO" doc:name="generic-event-logger" doc:id="82660526-8b89-430f-be62-a41160f7d863" message="#[payload]"/>
@@ -72,7 +74,8 @@ http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/cu
 		<ee:transform doc:name="generic-event-transformation" doc:id="abfbede6-c95a-4025-9c92-ef2ca6f9e628" >
 			<ee:message >
 				<ee:set-payload resource="dwl/publish-generic-event-from-queue-to-db.dwl" />
-			</ee:message>
+			
+</ee:message>
 		</ee:transform>
 		<flow-ref doc:name="generic-event-transformation" doc:id="250c75c2-8804-4e38-a834-c2fa52357ca1" name="inprogressLogger" target="genericEventTransformationLogger"/>
 		<logger level="INFO" doc:name="generic-event-transformation-logger" doc:id="ed635d1b-2d7d-405f-8ff9-1f746c491cb5" message="#[payload]"/>
