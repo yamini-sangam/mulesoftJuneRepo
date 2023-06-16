@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c22d84f8-3f7a-4f5a-8f95-697a11d78d15" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="mss-utility-service-cleFlow" doc:id="eeaa5f60-3d87-40c7-b84d-2bbfef1f8b64" >
+		<http:listener doc:name="Listener" doc:id="5216a977-d1cc-449f-a540-cf17a2f9c130" path="/test" config-ref="HTTP_Listener_config">
+			<http:error-response statusCode="#[vars.httpStatus default 500]">
+				<http:body ><![CDATA[#[payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<set-variable value="mss-utility-service-cle" doc:name="setFlowName" doc:id="fc13c146-7879-4f9c-8171-85eca7672304" variableName="flowName"/>
+		<set-variable value="#[attributes]" doc:name="SetReqattributes" doc:id="98e70268-81c0-4ea6-bcf9-fe3c7d793da3" variableName="reqattributes"/>
+		<flow-ref doc:name="startLogger" doc:id="764bcd07-5891-47dc-bfea-9ca6208d9acc" name="startLogger" target="startlog"/>
+		<flow-ref doc:name="inprogressLogger" doc:id="bdc027b7-c26b-4353-9b2c-9282898528c8" name="inprogressLogger" target="inprogresslog"/>
+		<ee:transform doc:name="payload_Transformation" doc:id="2e78dc92-4982-4553-bde7-62727f9b73dd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/dc
+---
+{
+	"message":" Hello from cle utility service",
+	"name":payload.name,
+	"id":payload.id,
+	"age":payload.age
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="endLogger" doc:id="e984601a-9777-4e9f-bb6a-487b05d8073a" name="endLogger" target="endlog"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="03e70b86-fdea-49d0-a5f0-69f9ba7dd386" >
+				<flow-ref doc:name="errorLogger" doc:id="b4f769ab-a3f8-4ba2-9a3b-d2d3d274a859" name="errorLogger"/>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

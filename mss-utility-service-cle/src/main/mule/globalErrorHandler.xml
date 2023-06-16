@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:error-handler-plugin="http://www.mulesoft.org/schema/mule/error-handler-plugin"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/error-handler-plugin http://www.mulesoft.org/schema/mule/error-handler-plugin/current/mule-error-handler-plugin.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	
+	<error-handler name="global-error-handler" doc:id="9a0baf32-b682-44d2-95aa-74add98ac78d" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="57c2fbbe-da6e-4c43-a8fc-ebda0344d458" type="APIKIT:BAD_REQUEST,HTTP:BAD_REQUEST">
+			<set-variable value="400" doc:name="Set errorCode" doc:id="94411b62-1bf0-4991-8a9e-c68fa3efb6cc" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="f02ee81c-f307-4225-a1de-2201a4932ed9" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d545441e-1c8a-466a-a46c-18faec5c8e86" type="APIKIT:NOT_FOUND">
+			<set-variable value="404" doc:name="Set errorCode" doc:id="b6c12c15-4026-4a79-9b7a-b3bcff0a6175" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="8dc6169d-e543-4749-b440-2aff60b294ae" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="3c092939-4f92-41ca-9680-9a4c9374dce6" type="APIKIT:METHOD_NOT_ALLOWED">
+			<set-variable value="501" doc:name="Set errorCode" doc:id="4c2cf3f6-7075-4d9c-8b55-047c7715c80a" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="c1e2abff-5b3d-45fe-8a9c-a07321e2363a" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="59e670a0-b1d4-4163-afb8-8c0ba7539e62" type="APIKIT:NOT_ACCEPTABLE">
+			<set-variable value="406" doc:name="Set errorCode" doc:id="af0d6f0c-a0f7-4f89-9e1e-f85bce960a33" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="9415ba6b-a675-473b-a0ff-1d7f89c452cf" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4d4c05e5-5617-4524-ae10-297c5b3ff01c" type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+			<set-variable value="415" doc:name="Set errorCode" doc:id="662d9b56-4cb2-4c53-bba1-c6d482c5d8f9" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="d141396c-6b22-45d1-84cf-efb86b4810c4" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f6dddf21-4d7b-4697-be31-9f7a11349491" type="APIKIT:NOT_IMPLEMENTED,HTTP:NOT_FOUND">
+			<set-variable value="404" doc:name="Set errorCode" doc:id="aff1e589-7de6-47e6-ac4f-f975276f912f" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="74d3e32c-0723-4e32-8e5e-63f8632ffc93" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4b7bb967-e5bc-447c-9677-533407ddc9ee" type="HTTP:CLIENT_SECURITY,HTTP:SECURITY,HTTP:UNAUTHORIZED,HTTP:FORBIDDEN,MULE:SECURITY">
+			<set-variable value="401" doc:name="Set errorCode" doc:id="36d1def8-3582-4105-bebb-f5a48158ba0f" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="dc5ce929-bfb5-46cc-be91-563762434d2e" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d71311c0-bc63-4293-9508-429ffb5e2b92" type="HTTP:RETRY_EXHAUSTED">
+			<set-variable value="503" doc:name="Set errorCode" doc:id="54eedee1-db0c-4911-a2c2-6409488aae5b" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="87dd51c2-6398-41d1-9b85-27eff6193ce6" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0cf4cadb-9ed1-4416-86b6-718400b9f3f8" type="HTTP:TOO_MANY_REQUESTS">
+			<set-variable value="429" doc:name="Set errorCode" doc:id="8ff5b621-b607-4512-aa2f-b8cc0033f803" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="da3d5682-9000-444a-b0af-4ebc67fa2945" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b60fc497-0a48-47cd-a46d-c00e0cb1b3fd" type="HTTP:TIMEOUT">
+			<set-variable value="408" doc:name="Set errorCode" doc:id="33fabf30-436a-481b-ab24-d7af49cd9e5e" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="da89e86e-f429-41e5-9063-807aad634e38" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0b59e119-a4ba-4ae0-87ed-8b071be6732e" type="HTTP:METHOD_NOT_ALLOWED">
+			<set-variable value="501" doc:name="Set errorCode" doc:id="c53c4195-4e29-43dc-bbb4-bc5b8a6426f3" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="2d11d6bf-10fa-42dd-b2cb-9cd2270ef085" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8fc7238a-d012-4edb-8580-fb6d4b97997a" type="HTTP:SERVICE_UNAVAILABLE">
+			<set-variable value="503" doc:name="Set errorCode" doc:id="344dcbff-51fe-49f0-bdf5-83ab5426c3d4" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="50f1771c-df1b-46f1-81a3-cc130f4f63a1" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="02a3140c-fad0-42cf-a791-2efdbe038cfd" type="HTTP:CONNECTIVITY">
+			<set-variable value="503" doc:name="Set errorCode" doc:id="013545cf-1f66-40a4-9457-38494e113eb6" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="40ca0893-6b93-40d7-9181-ee69947fb181" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0c7f3e27-daf5-4fd2-b95d-72f61f3ca0f9" type="HTTP:UNSUPPORTED_MEDIA_TYPE">
+			<set-variable value="415" doc:name="Set errorCode" doc:id="769c2cb8-dd44-4fe6-a83f-c195ed6eb16c" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="e6088f09-0862-48df-a52f-2603cafa8317" name="errorLogger"/>
+		
+</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="73e49fcb-9f91-49a5-9c5d-b213a4bb40b8" type="ANY">
+			<set-variable value="500" doc:name="Set errorCode" doc:id="e1d35942-f93d-49bb-a2d2-79e594db087b" variableName="errorCode" />
+			<flow-ref doc:name="Flow Reference" doc:id="d8346b7e-1ca9-46ae-a5db-31a0ddbf537e" name="errorLogger"/>
+		
+</on-error-propagate>
+	</error-handler>
+</mule>

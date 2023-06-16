@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="4aab2ba2-aa37-458e-9c8c-7ef74439696a" file="cle_properties\cle-dev.properties" />
+	<sub-flow name="startLogger" doc:id="c68456ac-0e7b-4035-9c5a-2b122e54ca82" >
+		<ee:transform doc:name="startLogger_transformation" doc:id="6daa2460-3ebf-41ca-b022-337078b82a07" >
+			<ee:message >
+				<ee:set-payload resource="start-logger.dwl" ></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="startLogger" doc:id="9b716c5c-3ccb-41e9-aea0-05d1476c6cb8" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="inprogressLogger" doc:id="1c5c6b64-a015-45ee-aaf6-553a27058ba2" >
+		<ee:transform doc:name="inProgressLogger_transformation" doc:id="24fa368a-aec6-496c-a619-7953dbfa8a2f">
+			<ee:message>
+				<ee:set-payload resource="inprogress-logger.dwl"></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="inprogressLogger" doc:id="3b7107fe-214c-49e7-b7e2-58cc1116bce7" message="#[payload]" />
+	</sub-flow>
+	<sub-flow name="endLogger" doc:id="ad63aa03-d956-4b94-9d1e-74d6e4f6f08f" >
+		<ee:transform doc:name="endLogger_transformation" doc:id="b7d460e4-196c-4c42-93af-e5da6bf42be3">
+			<ee:message>
+				<ee:set-payload resource="end-logger.dwl"></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="endLogger" doc:id="6828da83-51ef-4e73-b1ad-3315547d05d5" message="#[payload]" />
+	</sub-flow>
+	<sub-flow name="errorLogger" doc:id="b607c263-c07c-4dd8-9714-3468b854dbf7" >
+		<ee:transform doc:name="errorLogger_transformation" doc:id="80380d07-3da6-4678-8709-9eb6776e469b" >
+			<ee:message >
+				<ee:set-payload resource="error-logger.dwl"></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="errorLogger" doc:id="7c3a51d4-25b8-4154-855a-710dfb513b1c" message="#[payload]"/>
+		<ee:transform doc:name="errorResponse" doc:id="aa22a0af-b8f8-4ea1-a264-4afc766eb5a3" >
+			<ee:message >
+				<ee:set-payload resource="error-response.dwl" ></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
