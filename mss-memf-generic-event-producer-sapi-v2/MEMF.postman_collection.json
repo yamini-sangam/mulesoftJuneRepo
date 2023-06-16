@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "0e710de4-a22e-4751-b881-22ec21df611a",
+		"name": "MEMF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21763656"
+	},
+	"item": [
+		{
+			"name": "failuer(eventcode(-1))",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"eventCode\": 1,\r\n    \"event_id\": 1677\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/MEMF",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"MEMF"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "success(eventcode(1))",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"eventCode\": 1,\r\n    \"event_id\": 1677\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/MEMF",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"MEMF"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "emptyPayload",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "payloadNotEmpty",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
