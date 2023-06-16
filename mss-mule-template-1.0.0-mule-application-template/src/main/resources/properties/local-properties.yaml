@@ -1,0 +1,10 @@
+
+http:
+  host: "0.0.0.0"
+  port: "8081"
+  
+db:
+  username: "root"
+  password: "root"
+  host: "sample.db"
+  port: "3306"

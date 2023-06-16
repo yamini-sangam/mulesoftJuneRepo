@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="Common-Start-Logger-FlowFlow" doc:id="0039c1a3-e19b-4f0f-ab8c-93ec81b2a05a" >
+		<logger level="INFO" doc:name="StartLogger" doc:id="f8eb8804-5567-45ff-92f9-22dc34710d2b" message="Start Logger"/>
+	</flow>
+	<flow name="Common-End-Logger-Flow" doc:id="d2349f82-6376-4a50-98d1-25d791c5313f" >
+		<logger level="INFO" doc:name="EndLogger" doc:id="ff10c29d-fd3b-4a51-b3fe-e46348bddb9f" message="End Error"/>
+	</flow>
+</mule>

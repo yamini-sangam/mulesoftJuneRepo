@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="Global-Error-Handler-FlowFlow" doc:id="5449f617-e1bc-479a-8481-bed88df9769a" >
+		<raise-error doc:name="Raise error" doc:id="f09eed9e-109b-4b6d-9ddf-da667d83cd22" type="VALIDATION" description="validation error"/>
+	</flow>
+</mule>
