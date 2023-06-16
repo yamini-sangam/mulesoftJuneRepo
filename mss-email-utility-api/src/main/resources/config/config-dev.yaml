@@ -1,0 +1,51 @@
+#http Listener Config
+http:
+ host: "localhost"
+ port: "8081"
+ private:
+  port: "8091"
+ listenerpath: "/api/*"
+
+#Autodiscovery API ID
+api:
+ id: "16615081"
+ name: "email uapi"
+ version: "v1"
+
+sendgrid:
+ port: "443"
+ host: "api.sendgrid.com"
+ basepath: "/v3/mail"
+ path: "/send"
+ apiKey: "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"
+ 
+email:
+ fromAddress: "dunnaswethak@gmail.com"
+ toAddress: "sangamyamini@gmail.com"
+ host: "smtp.gmail.com"
+ port: "587"
+ user: "dunnaswethak@gmail.com"
+ password: "mlrsrdpmgjsptqqv"
+
+### JSON Logger configuration ###
+ 
+# Indicate which fields should not be logged
+json:
+ logger:
+  disabled:
+   fields: "content"
+
+###########################################################################################
+#                              Logging Framework configuaration
+###########################################################################################
+
+loggingFramework:
+ logTo:
+  info: ""
+  debug: ""
+  warn: ""
+  fatal: ""
+  error: ""
+  "trace": ""
+
+maskValues: ""

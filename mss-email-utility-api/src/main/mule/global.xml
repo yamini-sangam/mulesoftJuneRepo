@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<global-property doc:name="Global Property" doc:id="3ed1a470-c324-4a9b-a8f1-17e090c9d318" name="env" value="local" />
+	<configuration-properties doc:name="Configuration properties" doc:id="4bc50185-f14a-4794-9f68-f78a9d64dfc3" file="config/config-${env}.yaml" /><http:listener-config name="email-uapi-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+    <apikit:config name="email-uapi-config" api="resource::30068767-fc4c-4aa8-a407-1689ae032436:mss-email-api-spec:1.0.0:raml:zip:email-uapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="dd8eae7d-e372-4e95-992d-a5253646f6f4" >
+		<email:smtp-connection host="${email.host}" port="${email.port}" user="${email.user}" password="${email.password}" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<http:request-config name="SendGrid_Request_configuration" doc:name="HTTP Request configuration" doc:id="e596930d-79f9-4d93-b542-b0f2189abe4e" >
+		<http:request-connection host="api.sendgrid.com" />
+	</http:request-config>
+	</mule>
