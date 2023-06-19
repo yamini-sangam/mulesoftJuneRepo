@@ -1,0 +1,29 @@
+{
+  "configs": [
+    "implementation.xml",
+    "global.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "07357d61-3f13-4ca9-945f-6f9bc2dfa45d:poll-template-v1:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.2.2",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "global.xml",
+        "implementation.xml",
+        "log4j2.xml",
+        "properties/config-dev.yaml",
+        "properties/config-prod.yaml",
+        "properties/config-qa.yaml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

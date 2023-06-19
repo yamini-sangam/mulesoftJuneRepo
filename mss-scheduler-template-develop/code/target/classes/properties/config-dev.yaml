@@ -1,0 +1,17 @@
+#polling config
+polling:
+  frequency: "1000"
+
+
+api:
+  name: "Poll Template"
+  version: "v1"
+  
+### JSON Logger configuration ###
+ 
+# Indicate which fields should not be logged
+json:
+  logger:
+    disabled:
+      fields: "content"
+ 
