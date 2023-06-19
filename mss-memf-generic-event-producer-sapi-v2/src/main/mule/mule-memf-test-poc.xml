@@ -31,6 +31,7 @@ http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/cu
 				<logger level="INFO" doc:name="generic-event-logger" doc:id="4f1ea9bf-b4c8-41de-a9ca-0a290600a48c" message="#[payload]" />
 				<vm:publish doc:name="publish-generic-event-to-vm-queue" doc:id="2f2b7d51-dc29-4fa4-9f79-9d94571c1c20" config-ref="VM_Config" queueName="generic-event-input-queue"/>
 				<flow-ref doc:name="call-publish-generic-event-from-queue-to-db-subflow" doc:id="121c4abf-985f-4c90-8716-b5fbf0413b96" name="generic-event-from-queue-to-db"/>
+				<db:delete doc:name="Delete" doc:id="e91c2c62-28e3-40fe-ad49-cb6653e911ec" />
 			
 
 </when>
