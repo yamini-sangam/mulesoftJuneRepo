@@ -24,7 +24,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 output application/dc
 ---
 {
-	"message":" Hello from cle utility service",
+	"message":" Hello from CLE utility service",
 	"name":payload.name,
 	"id":payload.id,
 	"age":payload.age
