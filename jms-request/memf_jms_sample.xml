@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:sap="http://www.mulesoft.org/schema/mule/sap" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration" connectionIdleTimeout="30000000"/>
+    <jms:activemq-connector name="Active_MQ" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/>
+    <http:request-config name="HTTP_Request_Configuration" host="localhost" port="8089" doc:name="HTTP Request Configuration" responseTimeout="30000"/>
+    <http:listener-config name="HTTP_Listener_Configuration1" host="0.0.0.0" port="8089" doc:name="HTTP Listener Configuration"/>
+    <flow name="meaf_sapFlow">
+        <jms:inbound-endpoint queue="MEMF" connector-ref="Active_MQ" doc:name="JMS"/>
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
+        <set-variable variableName="catalogsample" value="#[payload]" doc:name="Variable"/>
+
+          <logger message="logger message= Current flowName: #[flow.name]" level="INFO" doc:name="Logger"/>
+       <!--   <set-variable variableName="HttpPath" value="#[message.inboundProperties.'http.request.path']" doc:name="Variable"/> -->
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <async doc:name="Async">
+            <http:request config-ref="HTTP_Request_Configuration" path="/bapi" method="POST" doc:name="HTTP">
+                <http:request-builder>
+                    <http:query-param paramName="flowName" value="#[flow.name]"/>
+                    <http:query-param paramName="messageId" value="#[flowVars.messageId]"/>
+                </http:request-builder>
+            </http:request>
+        </async>
+        <set-payload value="#[flowVars.catalogsample]" doc:name="Set Payload"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <file:outbound-endpoint path="src/main/resources/output1" responseTimeout="10000" doc:name="File"/>
+        <choice-exception-strategy doc:name="Choice Exception Strategy">
+            <catch-exception-strategy doc:name="Catch Exception Strategy">
+                <logger message=" #[exception.getCause()]" level="INFO" doc:name="Logger"/>
+                <logger message="Error message id: #[message.id]" level="INFO" doc:name="Logger"/>
+                <!-- <set-variable variableName="cause" value=" #[exception.getCause()]" doc:name="Variable"/> -->
+                <dw:transform-message doc:name="Transform Message">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+---
+
+GenericEvent:{
+	EventCategory : 'Error',
+	EventDescription : flowVars.cause,
+	EventCode :'00',
+	Severity :'ERROR',
+	EnvironmentDetails : 
+	{
+		SYSTEM_INFO :
+		{
+		Env:'dev',
+		ServerInstance :'123.33.1.67',
+		Mule_Version :'V3.9',
+		AnypintStudio :'V6.4'
+			
+	}
+	},
+		PayloadHeader :{
+		pheader :{
+		payload : flowVars.orginaldata  when payload.GenericEvent.EventCategory=='Error' otherwise payload,
+		//(path: flowVars.HttpPath),
+		PayloadType :'XML'
+		//CORRELATION_ID : flowVars.Message_id
+				
+	}
+		
+	},
+	    
+		TRACKING_ID:inboundProperties.messageId default flowVars.messageId,
+		//REPLAYFLAG :'N',
+		//PURGE_FLAG :'0', 
+	 SourceQueue :'MEMF',
+	 ComponentType :'Mulesoft',
+	 ComponentName :flowVars.flowname,
+	 AppName: 'meaf_sap'
+	 //flowName : flowVars.flowName
+}]]></dw:set-payload>
+                </dw:transform-message>
+                <async doc:name="Async">
+                    <http:request config-ref="HTTP_Request_Configuration" path="/bapi" method="POST" doc:name="HTTP">
+                        <http:request-builder>
+                            <http:query-param paramName="flowName" value="#[flow.name]"/>
+                            <http:query-param paramName="orginaldata" value="#[flowVars.catalogsample]"/>
+                            <http:query-param paramName="messageId" value="#[flowVars.messageId]"/>
+                        </http:request-builder>
+                    </http:request>
+                </async>
+               <!--   <logger message="#[flowVars.HttpPath]" level="INFO" doc:name="Logger"/> -->
+               <!--  <logger message=" error payload #[payload]" level="INFO" doc:name="Logger"/> -->
+            </catch-exception-strategy>
+        </choice-exception-strategy>
+    </flow>
+    <flow name="Suceess_flow">
+        <http:listener config-ref="HTTP_Listener_Configuration1" path="/bapi" doc:name="HTTP" allowedMethods="post"/>
+
+        <set-variable variableName="flowname" value="#[message.inboundProperties.'http.query.params'.flowName]" doc:name="Variable"/>
+        <set-variable variableName="orginaldata" value="#[message.inboundProperties.'http.query.params'.orginaldata]" doc:name="Variable" mimeType="application/xml"/>
+        <set-variable variableName="messageId" value="#[message.id]" doc:name="Variable"/>
+
+       <!--  <logger message=" flowName :  #[flowVars.flowname]    #[message.inboundProperties.'http.query.params'.flowName]" level="INFO" doc:name="Logger"/> -->
+
+        <dw:transform-message doc:name="Transform Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%var sample = payload.GenericEvent.orginaldata? 
+---
+GenericEvent:{
+	EventCategory : 'Error' when payload.GenericEvent.EventCategory=='Error' otherwise 'info',
+	EventDescription : 'Error' when payload.GenericEvent.EventCategory=='Error' otherwise 'Success',
+	EVENT_CODE: '-1' when payload.GenericEvent.EventCategory=='Error' otherwise '01',
+	Severity : 'Error' when payload.GenericEvent.EventCategory=='Error' otherwise 'INFO',
+	
+	
+	EnvironmentDetails : 
+	{
+		SYSTEM_INFO :
+		{
+		Env: 'dev',
+		ServerInstance :'123.33.1.67',
+		MuleVersion :'V3.9',
+		AnypointStudio :'V6.4'
+			
+	}},
+		PayloadHeader :{
+			Orginalpayload : flowVars.orginaldata  when payload.GenericEvent.EventCategory=='Error' otherwise payload,
+			//(path :inboundProperties.'http.query.params'.HttpPath),
+			pheader :{
+		PayloadType :'XML'
+		//CORRELATION_ID : flowVars.Message_id
+				
+	} },
+	  
+	   TRACKING_ID:inboundProperties.messageId default flowVars.messageId,
+		
+      SourceQueue :'MEMF',
+	 ComponentType :'Mulesoft',
+	 ComponentName :flowVars.flowname,
+	 AppName:'meaf_sap'
+	 //timestamp : now 
+	 //flowName : flowVars.flowname
+		 
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
+      <!-- <logger message="payload  before JMS #[payload]   " level="INFO" doc:name="Logger"/> ? -->
+        <jms:outbound-endpoint queue="Trying" connector-ref="Active_MQ" doc:name="JMS"/>
+        <choice-exception-strategy doc:name="Choice Exception Strategy">
+            <catch-exception-strategy doc:name="Catch Exception Strategy">
+                <set-payload value="Server not found exception " doc:name="Set Payload"/>
+                <set-property propertyName="http.status " value="500" doc:name="Property"/>
+                <logger message="#[message.payload]" level="INFO" doc:name="Logger"/>
+            </catch-exception-strategy>
+        </choice-exception-strategy>
+        
+    </flow>
+</mule>

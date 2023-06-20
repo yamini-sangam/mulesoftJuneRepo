@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="03e973f4-6cc1-4fd4-b1f0-b41a33b14c03">
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<jms:config name="JMS_Config" doc:name="JMS Config" doc:id="f64ccc87-2406-4230-8edb-f4d47634c7e9" >
+		<jms:active-mq-connection username="admin" password="admin" >
+			<jms:factory-configuration brokerUrl="tcp://localhost:61616" />
+		</jms:active-mq-connection>
+	</jms:config>
+	<jms:config name="JMS_Config1" doc:name="JMS Config" doc:id="6d3cec35-08ac-4ed1-a15d-7ca3154ed5c9" >
+		<jms:active-mq-connection />
+	</jms:config>
+	<flow name="jms-requestFlow" doc:id="f548b598-af8a-4b9a-98f7-be2d25fdea2e" >
+		<http:listener doc:name="Listener" doc:id="08346710-493c-4b29-93fb-9e9f63cac621" config-ref="HTTP_Listener_config" path="/mq">
+			<http:error-response statusCode="#[vars.httpStatus]" >
+				<http:body ><![CDATA[#[payload]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<ee:transform doc:name="Transform Message" doc:id="6e0cd5b6-92ad-4033-84eb-6a4e97962e4e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-variable value="-1" doc:name="eventCode" doc:id="7ace3308-194a-4cbd-9530-9f7649b21119" variableName="eventCode "/>
+		<choice doc:name="Choice" doc:id="d4fdc1d5-9ac6-4515-bd78-28637342a8b0" >
+			<when expression="#[vars.eventCode == 1]">
+				<set-variable value="200" doc:name="httpStatus" doc:id="06c5ec36-399f-40ea-b35e-4bf36f3de3b7" variableName="httpStatus"/>
+				<set-variable value="#[now()]" doc:name="setTime" doc:id="1b35db8f-dde2-48ca-a1b4-c2dd5cce93d1" variableName="time"/>
+				<set-variable value="No errors " doc:name="setDescription" doc:id="112b0768-7366-4d8f-985b-b6aa0c492664" variableName="description"/>
+				<ee:transform doc:name="Transform Message" doc:id="cce30952-6804-4713-806a-1b7720ccf20f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+
+---
+GenericEvent:{
+	EventCategory : 'info',
+	EventDescription : 'Success',
+	EVENT_CODE: vars.eventCode,
+	Severity : 'INFO',
+	
+	
+	EnvironmentDetails : 
+	{
+		SYSTEM_INFO :
+		{
+		Env: 'dev',
+		ServerInstance :'123.33.1.67',
+		MuleVersion :attributes.version,
+		AnypointStudio :'V6.4'
+			
+	}},
+		PayloadHeader :{
+			Orginalpayload : attributes.relativePath ,
+			//(path :inboundProperties.'http.query.params'.HttpPath),
+			pheader :{
+		PayloadType :'XML'
+		//CORRELATION_ID : flowVars.Message_id
+				
+	} },
+	  
+	 TRACKING_ID: uuid(),
+		
+     SourceQueue :'MEMF',
+	 ComponentType :'Mulesoft',
+//	 ComponentName : flow.name,
+	 AppName:'meaf_sap',
+    timestamp : vars.time,
+	 flowName : flow.name,
+	 status: vars.httpStatus,
+	 description: vars.description
+	 }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="8a260d71-75be-4701-81cf-243982eff8a8" message="#[payload]" />
+				<jms:publish doc:name="Publish" doc:id="8eeffd6c-4e5a-44b2-8e08-36be88e1ae72" config-ref="JMS_Config" destination="testQueue" />
+			</when>
+			<otherwise >
+				<raise-error doc:name="Raise error" doc:id="5bd5c4e9-0e29-47f0-8629-d08384379a90" type="PAYLOAD:PAYLOAD_ERROR" description="Event code should be 1"/>
+			</otherwise>
+		</choice>
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="da72f43c-1bd1-4e37-8359-a452b84c9b31" type="PAYLOAD:PAYLOAD_ERROR">
+				<set-variable value="400" doc:name="Set Variable" doc:id="6649feed-7d14-4f4b-af52-86138f6a007d" variableName="httpStatus"/>
+				<set-variable value="#[now()]" doc:name="Set Variable" doc:id="33c9b25a-efc8-4742-9537-73fe036f0a9a" variableName="time"/>
+				<ee:transform doc:name="Transform Message" doc:id="7fa98c9d-33eb-491c-9905-dcd20f6715c8">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+
+---
+GenericEvent:{
+	EventCategory : 'info',
+	EventDescription : 'Faled',
+	EVENT_CODE: '-1',
+	Severity : 'INFO',
+	
+	
+	EnvironmentDetails : 
+	{
+		SYSTEM_INFO :
+		{
+		Env: 'dev',
+		ServerInstance :'123.33.1.67',
+		MuleVersion :attributes.version,
+		AnypointStudio :'V6.4'
+			
+	}},
+		PayloadHeader :{
+			Orginalpayload : attributes.relativePath ,
+			//(path :inboundProperties.'http.query.params'.HttpPath),
+			pheader :{
+		PayloadType :'XML'
+		//CORRELATION_ID : flowVars.Message_id
+				
+	} },
+	  
+	 TRACKING_ID: uuid(),
+		
+     SourceQueue :'MEMF',
+	 ComponentType :'Mulesoft',
+//	 ComponentName : flow.name,
+	 AppName:'meaf_sap',
+     timestamp : vars.time,
+	 flowName : flow.name,
+	 status: vars.httpStatus,
+	 description: error.description
+	 }]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+					</ee:variables>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="9d22f436-d52e-45a2-95d7-c17ed7ff2a93" message="#[payload]"/>
+				<jms:publish doc:name="Publish" doc:id="e9e8080e-eb09-4ea8-acb6-a84fa194e40e" config-ref="JMS_Config" destination="testQueue"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
