@@ -1,0 +1,31 @@
+api:
+  id: "23233"  # Auto-discovery
+
+    
+default:
+  objectstore:
+    expiration: "10" 
+    maxEntries: "10"
+    ttl: "10" 
+
+https:
+  listener:
+    host: "0.0.0.0"
+    timeout:
+      connection-idle: "600000"
+  private:
+    port:"8092"
+  port: "8081"
+  request:
+    timeout:
+      connection-idle: "400000"
+      response: "40000"
+db:
+  username: "${secure::db.username}"
+  password: "${secure::db.password}"
+  host: "sample.db"
+  port: "1521"
+  
+reconnection: 
+  frequency: "3000"
+  retries: "3"

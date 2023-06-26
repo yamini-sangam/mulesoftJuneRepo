@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	
+	<flow name="mss-audit-replay-appFlow" doc:id="905bd07b-d3e9-4672-a8b2-ecb56cca4280" >
+		<http:listener doc:name="Listener" doc:id="5e70c3b6-7eb7-489a-b6f9-b06054a6370a" config-ref="HTTP_Listener_config" path="/auditReplay"/>
+		<ee:transform doc:name="Transform Message" doc:id="a6ca1bd1-68e4-43e3-ae19-e1f9ceae3a23" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="654521e4-a32f-4352-b789-7b34776875f3" name="audit-flowSub_Flow"/>
+	</flow>
+</mule>

@@ -1,0 +1,19 @@
+
+http:
+  host: "0.0.0.0"
+  port: "8081"
+  
+db:
+  username: "root"
+  password: "root"
+  host: "localhost"
+  port: "3306"
+  database: "MEMF"
+Activemq:
+  username: "admin"
+  password: "admin"
+  url: "tcp://localhost:61616"
+  
+environment: "dev"
+applicationName: "mss-memf-generic-event-producer-sapi-v2"
+
