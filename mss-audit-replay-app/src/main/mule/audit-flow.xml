@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
 	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="ce735b88-5878-4033-9f8c-e0cffe32a795" />
 	<sub-flow name="audit-flowSub_Flow" doc:id="b4fa5bc1-178d-487d-805f-0e4f9dd0c446" >
-		<choice doc:name="Choice" doc:id="ec665dd0-02d8-4fcc-a4fd-a9ef6d5b5d00" >
-			<when expression="#[isNumeric(payload.phoneno) and sizeOf(payload.phoneno) == 9]">
-				<logger level="INFO" doc:name="Logger" doc:id="c80b1eaf-2b58-4365-ae5d-21bd315dcd29" message="#[payload]"/>
-			</when>
-			<when expression="#[isEmpty(payload.phoneno)]">
-				<logger level="WARN" doc:name="Logger" doc:id="5b5a52d6-8a03-468b-afb8-9c1e44a2213e" message='"Phoneno must not be empty"'/>
-			</when>
-			<otherwise >
-				<logger level="ERROR" doc:name="Logger" doc:id="d6e2f044-9c70-4784-93de-8fefacca4145" />
-			</otherwise>
-		</choice>
+		
+		<db:insert doc:name="Insert" doc:id="731e0bb0-2623-427a-8b23-0adcbbce1d93" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into employee(name,age,phoneno,Department,address) values(:name, :age, :phoneno, :department, :address) ]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{"name": payload.name, "age": payload.age, "phoneno": payload.phoneno, "department": payload.department, "address": payload.address}]]]></db:input-parameters>
+		</db:insert>
 	</sub-flow>
 </mule>

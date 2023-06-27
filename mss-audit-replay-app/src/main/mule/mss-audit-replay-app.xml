@@ -8,14 +8,31 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	
 	<flow name="mss-audit-replay-appFlow" doc:id="905bd07b-d3e9-4672-a8b2-ecb56cca4280" >
 		<http:listener doc:name="Listener" doc:id="5e70c3b6-7eb7-489a-b6f9-b06054a6370a" config-ref="HTTP_Listener_config" path="/auditReplay"/>
-		<ee:transform doc:name="Transform Message" doc:id="a6ca1bd1-68e4-43e3-ae19-e1f9ceae3a23" >
+		<ee:transform doc:name="originalPayload" doc:id="a6ca1bd1-68e4-43e3-ae19-e1f9ceae3a23" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 payload]]></ee:set-payload>
 			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="originalPayload" ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+			</ee:variables>
 		</ee:transform>
+		<choice doc:name="Choice" doc:id="30632cd7-6a87-4593-aaf1-38780d5957bb" >
+			<when expression="isEmpty(payload.phoneno)">
+				<logger level="WARN" doc:name="Logger" doc:id="613a5412-9ef1-48a2-ab74-cdea5fdd5cec" message='#["Phoneno must not be empty"]'/>
+			</when>
+			<when expression="#[isInteger(payload.phoneno) and sizeOf(payload.phoneno) == 10]">
+				<logger level="INFO" doc:name="Logger" doc:id="d7406a70-210f-4338-8cdc-3a334bbeef81" message="#[payload]"/>
+			</when>
+			<otherwise >
+				<logger level="ERROR" doc:name="Logger" doc:id="7c678018-4eba-4cb3-9b96-919726dcbc51" message="#[payload]"/>
+			</otherwise>
+		</choice>
 		<flow-ref doc:name="Flow Reference" doc:id="654521e4-a32f-4352-b789-7b34776875f3" name="audit-flowSub_Flow"/>
 	</flow>
 </mule>
