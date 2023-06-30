@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	
+	<flow name="mss-audit-replay-mf" doc:id="905bd07b-d3e9-4672-a8b2-ecb56cca4280" >
+		<http:listener doc:name="main-HTTP-Listener" doc:id="5e70c3b6-7eb7-489a-b6f9-b06054a6370a" config-ref="main_http-listener" path="/auditReplay"/>
+		<ee:transform doc:name="originalPayload" doc:id="a6ca1bd1-68e4-43e3-ae19-e1f9ceae3a23" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="originalPayload" ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="call-mss-audit-log-level-sf" doc:id="175065ae-7067-4ecc-81b4-83f7e73acce9" name="mss-audit-log-level-sf"/>
+		<ee:transform doc:name="successEventMapping" doc:id="29bba788-dfe1-48c3-a21e-f9f0cf095727" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: if (vars.level == "WARN") ("PhoneNo must not be empty") else ("Inserted Succesfully")
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="successEvent" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+"name": payload.name, 
+"age": payload.age, 
+"phoneno": payload.phoneno, 
+"department": payload.department, 
+"address": payload.address, 
+"cid": attributes.Headers[0], 
+"replay": vars.level
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<jms:publish doc:name="publish-success-payload" doc:id="c04b5c72-e151-4874-8a3a-47449edbf157" config-ref="audit-replay_mq" destination="audit-replay-queue">
+			<jms:message >
+				<jms:body ><![CDATA[#[vars.successEvent]]]></jms:body>
+			</jms:message>
+		</jms:publish>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="451ffeab-1297-42f1-8143-1f8ddec2d936" type="ANY">
+				<ee:transform doc:name="payloadLevel" doc:id="fbe8e8b0-3b01-4bd8-8bf5-10e96d1ef196">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="level" ><![CDATA[%dw 2.0
+output application/json
+---
+"ERROR"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<ee:transform doc:name="errorEventMapping" doc:id="0c52ef79-cc93-4646-8467-c90fcb44df6e">
+			<ee:message>
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	status: "Payload was invalid"
+}]]></ee:set-payload>
+			</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="errorEvent" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+"name": payload.name, 
+"age": payload.age, 
+"phoneno": payload.phoneno, 
+"department": payload.department, 
+"address": payload.address, 
+"cid": attributes.Headers[0], 
+"replay": vars.level
+}]]></ee:set-variable>
+					</ee:variables>
+		</ee:transform>
+				<jms:publish doc:name="publish-error-payload" doc:id="db8dcee5-fd62-479b-a753-b2f9ca31197a" config-ref="audit-replay_mq" destination="audit-replay-queue">
+					<jms:message >
+						<jms:body ><![CDATA[#[vars.errorEvent]]]></jms:body>
+					</jms:message>
+				</jms:publish>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<sub-flow name="mss-audit-log-level-sf" doc:id="4703c89b-7053-4d96-a1ae-d48753f35e4f" >
+		<choice doc:name="checkPayload" doc:id="30632cd7-6a87-4593-aaf1-38780d5957bb">
+			<when expression="isEmpty(payload.phoneno)">
+				<logger level="WARN" doc:name="warnLog" doc:id="613a5412-9ef1-48a2-ab74-cdea5fdd5cec" message='Phone number must not be empty #[payload]'/>
+				<ee:transform doc:name="payloadType" doc:id="bd70d9d1-6aed-4858-adfb-574b28664e53">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="level" ><![CDATA[%dw 2.0
+output application/json
+---
+"WARN"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			
+</when>
+			<when expression="#[isInteger(payload.phoneno) and sizeOf(payload.phoneno) == 10]">
+				<logger level="INFO" doc:name="infoLog" doc:id="d7406a70-210f-4338-8cdc-3a334bbeef81" message="Payload was valid  #[payload]" />
+				<ee:transform doc:name="payloadType" doc:id="f50b5621-2b03-4204-a478-38ec42e5e8a4">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="level" ><![CDATA[%dw 2.0
+output application/json
+---
+"INFO"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			
+</when>
+			<otherwise>
+				<raise-error doc:name="payloadError" doc:id="939bfc03-3945-4120-b248-65305cea1047" type="PAYLOAD:PAYLOAD_ERROR" description="Payload is not acceptable" />
+				<logger level="INFO" doc:name="ErrorLog" doc:id="120bf222-9619-482f-8c13-c75d3613d31e" message="Payload was invalid #[payload]"/>
+			
+</otherwise>
+
+		</choice>
+	</sub-flow>
+</mule>

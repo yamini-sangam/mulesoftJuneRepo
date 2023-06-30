@@ -8,12 +8,11 @@ db:
   password: "root"
   host: "localhost"
   port: "3306"
-  database: "MEMF"
+  database: "replaypayload"
 Activemq:
   username: "admin"
   password: "admin"
   url: "tcp://localhost:61616"
   
-environment: "dev"
-applicationName: "mss-memf-generic-event-producer-sapi-v2"
+
 

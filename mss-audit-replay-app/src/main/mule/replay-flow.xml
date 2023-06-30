@@ -4,10 +4,4 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
-	<jms:config name="JMS_Config" doc:name="JMS Config" doc:id="d50d7e35-b32a-48e5-bcb4-16fc80dd0f39" >
-		<jms:active-mq-connection />
-	</jms:config>
-	<sub-flow name="replay-flowSub_Flow" doc:id="9462565a-f561-4827-a3d5-66317747c74e" >
-		<jms:publish doc:name="Publish" doc:id="059aeb37-cf89-4bbb-a297-70f015a9a568" config-ref="JMS_Config" destination="replayQueue"/>
-	</sub-flow>
 </mule>

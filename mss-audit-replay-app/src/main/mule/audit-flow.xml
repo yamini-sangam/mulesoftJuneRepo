@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
-http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="ce735b88-5878-4033-9f8c-e0cffe32a795" />
-	<sub-flow name="audit-flowSub_Flow" doc:id="b4fa5bc1-178d-487d-805f-0e4f9dd0c446" >
-		
-		<db:insert doc:name="Insert" doc:id="731e0bb0-2623-427a-8b23-0adcbbce1d93" config-ref="Database_Config">
-			<db:sql ><![CDATA[insert into employee(name,age,phoneno,Department,address) values(:name, :age, :phoneno, :department, :address) ]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{"name": payload.name, "age": payload.age, "phoneno": payload.phoneno, "department": payload.department, "address": payload.address}]]]></db:input-parameters>
+	<flow name="audit-flowFlow" doc:id="c8c3d90b-023a-46cd-a90d-93c2beea0b23" >
+		<jms:listener doc:name="get-data-from-queue" doc:id="e0625079-61f4-4f1d-90bc-eb09f4eb83e9" config-ref="audit-replay_mq" destination="audit-replay-queue"/>
+		<logger level="INFO" doc:name="payloadFromMQ" doc:id="11a14932-26a3-4dc0-a3a0-307c806f3b27" message="#[payload]" />
+		<db:insert doc:name="insertEmployeeDetails" doc:id="731e0bb0-2623-427a-8b23-0adcbbce1d93" config-ref="audit-replay_database">
+			<db:sql><![CDATA[insert into employee(name,age,phoneno,Department,address,correlationID,replay) values(:name, :age, :phoneno, :department, :address, :cid, :replay) ]]></db:sql>
+			<db:input-parameters><![CDATA[#[{"name": payload.name, "age": payload.age, "phoneno": payload.phoneno, "department": payload.department, "address": payload.address, "cid": payload.cid, "replay": payload.replay}]]]></db:input-parameters>
 		</db:insert>
-	</sub-flow>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="dcdc1731-3c09-46d0-9b5f-9e29067d0076" type="ANY">
+				<jms:publish doc:name="" doc:id="48cfab63-7e0b-4d78-ab18-257d6f4dbd3c" config-ref="audit-replay_mq" destination="audit-replay-queue"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
 </mule>
