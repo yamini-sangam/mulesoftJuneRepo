@@ -1,0 +1,1216 @@
+{
+	"info": {
+		"_postman_id": "57b9ecb8-1204-458a-8f1b-7198234f5238",
+		"name": "mss-audit-replay-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21763656"
+	},
+	"item": [
+		{
+			"name": "errorPayload",
+			"item": [
+				{
+					"name": "errorPayload-200",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"123\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-404",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"123\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-500",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"123\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-400",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"123\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-405",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 405\", function () {\r",
+									"    pm.response.to.have.status(405);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"123\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-406",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 406\", function () {\r",
+									"    pm.response.to.have.status(406);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"123\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-415",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 415\", function () {\r",
+									"    pm.response.to.have.status(415);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"123\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-501",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 501\", function () {\r",
+									"    pm.response.to.have.status(501);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"123\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "infoPayload",
+			"item": [
+				{
+					"name": "errorPayload-200",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"1234567890\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-404",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"1234567890\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-500",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"1234567890\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-400",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"1234567890\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-405",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 405\", function () {\r",
+									"    pm.response.to.have.status(405);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"1234567890\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-406",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 406\", function () {\r",
+									"    pm.response.to.have.status(406);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"1234567890\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-415",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 415\", function () {\r",
+									"    pm.response.to.have.status(415);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"1234567890\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "errorPayload-501",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the request body as JSON\r",
+									"var requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Extract the phoneno from the requestBody\r",
+									"var phoneno = requestBody.phoneno;\r",
+									"\r",
+									"// Set the phoneno as the value for X-Correlation-ID header\r",
+									"pm.request.headers.add({\r",
+									"    key: 'X-Correlation-ID',\r",
+									"    value: phoneno\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test for 501\", function () {\r",
+									"    pm.response.to.have.status(501);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Correlation-ID",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"1234567890\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/auditReplay",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"auditReplay"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "warnPayload",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Parse the request body as JSON\r",
+							"var requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"// Extract the phoneno from the requestBody\r",
+							"var phoneno = requestBody.phoneno;\r",
+							"\r",
+							"// Set the phoneno as the value for X-Correlation-ID header\r",
+							"pm.request.headers.add({\r",
+							"    key: 'X-Correlation-ID',\r",
+							"    value: phoneno\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Correlation-ID",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"yamini\",\r\n    \"phoneno\": \"\" ,\r\n    \"age\": 24,\r\n    \"department\": \"Integration\",\r\n    \"address\": \"Vijayawada\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/auditReplay",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"auditReplay"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
